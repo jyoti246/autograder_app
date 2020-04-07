@@ -179,6 +179,53 @@ class CourseST(Screen):
     def on_enter(self, *args):
         pass
 
+class ProfAssign(Screen):
+    def back(self):
+        sm.current = "courseprof"
+    def upload_assgn(self):
+        pass
+    def upload_tc(self):
+        pass
+    def grade_button(self):
+        sm.current = "gradeprof"
+        pass
+    def on_enter(self, *args):
+        pass
+
+class TaAssign(Screen):
+    def back(self):
+        sm.current = "courseta"
+    def upload_assgn(self):
+        pass
+    def upload_tc(self):
+        pass
+    def grade_button(self):
+        sm.current = "gradeta"
+        pass
+    def on_enter(self, *args):
+        pass
+
+class SubmitAssign(Screen):
+    def back(self):
+        sm.current = "coursest"
+    def upload_assgn(self):
+        pass
+    def download_assgn(self):
+        pass
+    def on_enter(self, *args):
+        pass
+
+class GradeTA(Screen):
+    def back(self):
+        sm.current = "taassign"
+    def on_enter(self, *args):
+        pass
+class GradeProf(Screen):
+    def back(self):
+        sm.current = "profassign"
+    def on_enter(self, *args):
+        pass
+
 class WindowManager(ScreenManager):
     pass
 
@@ -206,11 +253,11 @@ db = DataBase("users.txt")
 screens = [LoginWindow(name="login"), CreateAccountWindow(name="create"),MainWindow(name="main"), 
 Profile(name = "profile"),TARequests(name="tarequests"),STRequests(name="strequests"),STCourses(name="stcourses"),
 TACourses(name="tacourses"),MyCourses(name="mycourses"),CourseTA(name="courseta"),CourseST(name="coursest"),CourseProf(name="courseprof"),
-Students(name= "students")]
+Students(name= "students"),ProfAssign(name="profassign"),SubmitAssign(name="submitassign"),TaAssign(name="taassign"),GradeTA(name="gradeta"),GradeProf(name="gradeprof")]
 for screen in screens:
     sm.add_widget(screen)
 
-sm.current = "login"
+sm.current = "profassign"
 
 
 class MyMainApp(App):
