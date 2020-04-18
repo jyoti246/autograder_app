@@ -177,9 +177,10 @@ class TARequests(Screen):
         self.users = []
 
         for line in self.file:
-            course, fromusr, tousr = line.strip().split(";")
-            if(tousr == self.current):
-                self.users.append((course, fromusr))
+            if line !="":
+                course, fromusr, tousr = line.strip().split(";")
+                if(tousr == self.current):
+                    self.users.append((course, fromusr))
             
         self.wrtfile = open("courseta.txt", "a")
         self.file.close()
@@ -281,9 +282,13 @@ class STRequests(Screen):
         self.users = []
 
         for line in self.file:
-            course, fromusr, tousr = line.strip().split(";")
-            if(tousr == self.current):
-                self.users.append((course, fromusr))
+            if line !="":
+                print("\n\n\nhere")
+                print(line)
+                print("here\n\n\n")
+                course, fromusr, tousr = line.strip().split(";")
+                if(tousr == self.current):
+                    self.users.append((course, fromusr))
             
         self.wrtfile = open("coursest.txt", "a")
         self.file.close()
@@ -347,10 +352,11 @@ class MyCourses(Screen):
         self.count = 0
         self.tot=0
         for line in self.file:
-            bakwas, sub, guide = line.strip().split(";")
-            self.tot = self.tot+1
-            if(guide == self.current):
-                self.courses.append(sub)
+            if line !="":
+                bakwas, sub, guide = line.strip().split(";")
+                self.tot = self.tot+1
+                if(guide == self.current):
+                    self.courses.append(sub)
         
         self.file.close()
         self.buttons =[]
@@ -389,10 +395,11 @@ class TACourses(Screen):
         self.count = 0
         
         for line in self.file:
-            sub, guide, ta = line.strip().split(";")
-            
-            if(ta == self.current):
-                self.courses.append((sub, guide))
+            if line !="":
+                sub, guide, ta = line.strip().split(";")
+                
+                if(ta == self.current):
+                    self.courses.append((sub, guide))
         
         self.file.close()
         self.buttons =[]
@@ -414,13 +421,14 @@ class STCourses(Screen):
             tempfile = open("courses.txt", "r")
             flag =0
             for line in tempfile:
-                a, b, c = line.strip().split(";")
-                if(a==self.course_id.text and self.current != c):
-                    reqf = open("strequest.txt", "a")
-                    reqf.write(b+";"+c+";"+self.current+"\n")
-                    reqf.close()
-                    flag =1
-                    break
+                if line !="":
+                    a, b, c = line.strip().split(";")
+                    if(a==self.course_id.text and self.current != c):
+                        reqf = open("strequest.txt", "a")
+                        reqf.write(b+";"+c+";"+self.current+"\n")
+                        reqf.close()
+                        flag =1
+                        break
             
 
             tempfile.close()
@@ -451,10 +459,11 @@ class STCourses(Screen):
         self.count = 0
         
         for line in self.file:
-            sub, guide, st = line.strip().split(";")
-            
-            if(st == self.current):
-                self.courses.append((sub, guide))
+            if line !="":
+                sub, guide, st = line.strip().split(";")
+                
+                if(st == self.current):
+                    self.courses.append((sub, guide))
         
         self.file.close()
         self.buttons =[]
@@ -489,10 +498,11 @@ class CourseProf(Screen):
             tempf = open("users.txt", "r")
             flag =0
             for line in tempf:
-                a, b, c ,d = line.strip().split(";")
-                if(a == self.ta_id.text):
-                    flag =1
-                    break
+                if line !="":
+                    a, b, c ,d = line.strip().split(";")
+                    if(a == self.ta_id.text):
+                        flag =1
+                        break
             tempf.close()
             if flag ==1:
                 tempf = open("tarequest.txt", "a")
@@ -511,14 +521,15 @@ class CourseProf(Screen):
     def on_enter(self, *args):
         tempf = open("courses.txt", "r")
         for line in tempf:
-            a, b, c = line.strip().split(";")
-            
-            if(b == self.currentCourse and c == self.currentProf):
-                pop = Popup(title='Course ID',
-                          content=Label(text=a,font_size = 30),
-                          size_hint=(None, None), size=(300, 200))
-                pop.open()
-                break
+            if line !="":
+                a, b, c = line.strip().split(";")
+                
+                if(b == self.currentCourse and c == self.currentProf):
+                    pop = Popup(title='Course ID',
+                              content=Label(text=a,font_size = 30),
+                              size_hint=(None, None), size=(300, 200))
+                    pop.open()
+                    break
 
         tempf.close()
         
@@ -532,9 +543,10 @@ class Students(Screen):
         self.students =[]
         tempf = open("coursest.txt", "r")
         for line in tempf:
-            a, b, c = line.strip().split(";")
-            if(a==currentCourse and b==currentProf):
-                self.students.append(c)
+            if line !="":
+                a, b, c = line.strip().split(";")
+                if(a==currentCourse and b==currentProf):
+                    self.students.append(c)
 
 
 
