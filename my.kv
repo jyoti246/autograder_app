@@ -1,3 +1,5 @@
+<Button>:
+    color: 0.3,0.4,0.5,1
 <CreateAccountWindow>:
     name: "create"
 
@@ -263,7 +265,7 @@
 
 <TARequests>:
     FloatLayout:
-
+        id: ides
         Label:
             text: "__PRAGMA__"
             size_hint: 1.0, 0.4
@@ -283,13 +285,13 @@
             text: "Back"
             font_size: (root.width**2 + root.height**2) / 17**4
             on_release:
-                app.root.current = "main"
+                root.back()
                 root.manager.transition.direction = "down"
 
 
 <STRequests>:
     FloatLayout:
-
+        id: ides
         Label:
             text: "__PRAGMA__"
             size_hint: 1.0, 0.4
@@ -309,7 +311,7 @@
             text: "Back"
             font_size: (root.width**2 + root.height**2) / 17**4
             on_release:
-                app.root.current = "main"
+                root.back()
                 root.manager.transition.direction = "down"
 
 <MyCourses>:
@@ -318,7 +320,7 @@
 
     course: course
     FloatLayout:
-
+        id : ides
         Label:
             text: "__PRAGMA__"
             size_hint: 1.0, 0.4
@@ -328,7 +330,7 @@
 
         Label:
             text: "Courses offered my you"
-            size_hint: 0.8, 0.2
+            size_hint: 0.8, 0.1
             pos_hint: {"x":0.1, "top":.9}
             font_size: (root.width**2 + root.height**2) / 14**4
 
@@ -359,13 +361,13 @@
             text: "Back"
             font_size: (root.width**2 + root.height**2) / 17**4
             on_release:
-                app.root.current = "main"
+                root.back()
                 root.manager.transition.direction = "down"
 
 
 <TACourses>:
     FloatLayout:
-
+        id : ides
         Label:
             text: "__PRAGMA__"
             size_hint: 1.0, 0.4
@@ -375,7 +377,7 @@
 
         Label:
             text: "Courses assisted by you"
-            size_hint: 0.8, 0.2
+            size_hint: 0.8, 0.1
             pos_hint: {"x":0.1, "top":.9}
             font_size: (root.width**2 + root.height**2) / 14**4
 
@@ -392,7 +394,7 @@
 <STCourses>:
     course_id: course_id
     FloatLayout:
-
+        id : ides
         Label:
             text: "__PRAGMA__"
             size_hint: 1.0, 0.4
@@ -402,7 +404,7 @@
 
         Label:
             text: "Courses you are enrolled in"
-            size_hint: 0.8, 0.2
+            size_hint: 0.8, 0.1
             pos_hint: {"x":0.1, "top":.9}
             font_size: (root.width**2 + root.height**2) / 14**4
 
@@ -483,7 +485,7 @@
             font_size: (root.width**2 + root.height**2) / 12**4
 
         Label:
-            text: "Add Assignments"
+            text: "Upload Assignments"
             size_hint: 0.3, 0.08
             pos_hint: {"x":0.0+.53, "top":.2}
             font_size: (root.width**2 + root.height**2) / 14**4

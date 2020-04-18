@@ -1,0 +1,4 @@
+os;@.;jyoti@gmail.com
+compilers;@.;kanu@gmail.com
+networks;kanu@gmail.com;@.
+dbms;jyoti@gmail.com;@.
