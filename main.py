@@ -6,7 +6,8 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from database import DataBase
 from kivy.uix.button import Button
-
+from kivy.graphics import Color, Rectangle
+from functools import partial
 class CreateAccountWindow(Screen):
     namee = ObjectProperty(None)
     email = ObjectProperty(None)
@@ -333,7 +334,8 @@ class MyCourses(Screen):
 
     def reset(self):
         temp = self.count
-        self.buttons.append(Button(text= self.course.text, size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15,on_release = lambda x: self.enter_course(x = temp)))
+        t=temp
+        self.buttons.append(Button(text= self.course.text, size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15,on_release = partial( self.enter_course, t)))
         # self.buttons[self.count].bind(on_release = self.enter_course)
         self.ids.ides.add_widget(self.buttons[self.count])
         self.courses.append(self.course.text)
@@ -341,7 +343,7 @@ class MyCourses(Screen):
         self.tot = self.tot+1
         self.wrtfile.write(str(self.tot)+";"+self.course.text+";"+self.current+"\n")
         self.course.text = ""
-    def enter_course(self, x):
+    def enter_course(self, x, y=0):
         CourseProf.currentProf = self.current;
         CourseProf.currentCourse = self.courses[x]
         sm.current = "courseprof"
@@ -363,7 +365,8 @@ class MyCourses(Screen):
         self.wrtfile = open("courses.txt", "a")
         for sub in self.courses :
             temp = self.count
-            self.buttons.append(Button(text= sub, size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15, on_release = lambda x: self.enter_course(x = temp)))
+            t=temp
+            self.buttons.append(Button(text= sub, size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15, on_release = partial( self.enter_course, t)))
             # self.buttons[self.count].bind(on_release = self.enter_course)
             self.ids.ides.add_widget(self.buttons[self.count])
             self.count= self.count+1
@@ -383,7 +386,7 @@ class TACourses(Screen):
         sm.current = "main"
     
     
-    def enter_course(self, x):
+    def enter_course(self, x,y=0):
         CourseTA.currentTa = self.current
         CourseTA.currentProf = self.courses[x][1]
         CourseTA.currentCourse = self.courses[x][0]
@@ -405,7 +408,7 @@ class TACourses(Screen):
         self.buttons =[]
         for sub in self.courses :
             temp = self.count
-            self.buttons.append(Button(text= "Course:  "+sub[0]+"         Guide:  "+ sub[1], size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15, on_release = lambda x: self.enter_course(x = temp)))
+            self.buttons.append(Button(text= "Course:  "+sub[0]+"         Guide:  "+ sub[1], size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15, on_release = partial( self.enter_course, temp)))
             # self.buttons[self.count].bind(on_release = self.enter_course)
             self.ids.ides.add_widget(self.buttons[self.count])
             self.count= self.count+1
@@ -447,7 +450,7 @@ class STCourses(Screen):
         sm.current = "main"
     
     
-    def enter_course(self, x):
+    def enter_course(self, x,y=0):
         CourseST.currentSt = self.current
         CourseST.currentProf = self.courses[x][1]
         CourseST.currentCourse = self.courses[x][0]
@@ -469,7 +472,7 @@ class STCourses(Screen):
         self.buttons =[]
         for sub in self.courses :
             temp = self.count
-            self.buttons.append(Button(text= "Course:  "+sub[0]+"         Guide:  "+ sub[1], size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15, on_release = lambda x: self.enter_course(x = temp)))
+            self.buttons.append(Button(text= "Course:  "+sub[0]+"         Guide:  "+ sub[1], size_hint = (1, 0.05),pos_hint = {"x":0, "top":0.8-.05*self.count},font_size= 15, on_release = partial( self.enter_course, temp)))
             # self.buttons[self.count].bind(on_release = self.enter_course)
             self.ids.ides.add_widget(self.buttons[self.count])
             self.count= self.count+1
@@ -520,11 +523,14 @@ class CourseProf(Screen):
         sm.current = "students"
     def on_enter(self, *args):
         tempf = open("courses.txt", "r")
+        id =""
+        
         for line in tempf:
             if line !="":
                 a, b, c = line.strip().split(";")
                 
                 if(b == self.currentCourse and c == self.currentProf):
+                    id =a
                     pop = Popup(title='Course ID',
                               content=Label(text=a,font_size = 30),
                               size_hint=(None, None), size=(300, 200))
@@ -538,15 +544,55 @@ class Students(Screen):
     currentProf =""
     currentCourse =""
     def back(self):
+        for button in self.buttons:
+            self.ids.ides.remove_widget(button)
+
+        with open("coursest.txt", "r") as f:
+            lines = f.readlines()
+        self.count=0
+        with open("coursest.txt", "w") as f:
+            f.write("")
+            for line in lines:
+                a, b, c = line.strip().split(";")
+                if(a==self.currentCourse and b==self.currentProf):
+                    if self.flag[self.count]==0:
+                        pass
+                    else:
+                        f.write(line)
+                    self.count= self.count+1
+                else:
+                    f.write(line)
+                
+
         sm.current = "courseprof"
+
+
+    def remove_student(self, x, y=0):
+        self.flag[x]=0
+        
+
+
     def on_enter(self, *args):
         self.students =[]
+        self.flag =[]
+        self.count =0
         tempf = open("coursest.txt", "r")
         for line in tempf:
             if line !="":
                 a, b, c = line.strip().split(";")
-                if(a==currentCourse and b==currentProf):
+                if(a==self.currentCourse and b==self.currentProf):
                     self.students.append(c)
+                    self.flag.append(1)
+        tempf.close()
+        self.buttons =[]
+        for student in self.students :
+            temp = self.count
+            self.buttons.append(Button(text= "Deregister: "+student, size_hint = (1, 0.02),pos_hint = {"x":0, "top":0.8-.02*self.count},font_size= 10, on_release = partial( self.remove_student, temp)))
+            # self.buttons[self.count].bind(on_release = self.enter_course)
+            self.ids.ides.add_widget(self.buttons[self.count])
+            self.count= self.count+1
+
+
 
 
 
@@ -640,6 +686,7 @@ sm.current = "login"
 
 class MyMainApp(App):
     def build(self):
+        
         return sm
 
 
